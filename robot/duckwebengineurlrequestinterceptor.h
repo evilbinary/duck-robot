@@ -3,18 +3,18 @@
  * 邮箱:rootdebug@163.com
  */
 
-#ifndef TWEBENGINEURLREQUESTINTERCEPTOR_H
-#define TWEBENGINEURLREQUESTINTERCEPTOR_H
+#ifndef DUCKWEBENGINEURLREQUESTINTERCEPTOR_H
+#define DUCKWEBENGINEURLREQUESTINTERCEPTOR_H
 
 
 #include <QtWebEngineWidgets>
 
-class WebUrlRequestInterceptor : public QWebEngineUrlRequestInterceptor
+class DuckWebUrlRequestInterceptor : public QWebEngineUrlRequestInterceptor
 {
     Q_OBJECT
 
 public:
-    WebUrlRequestInterceptor(QObject *parent = Q_NULLPTR);
+    DuckWebUrlRequestInterceptor(QObject *parent = Q_NULLPTR);
     void interceptRequest(QWebEngineUrlRequestInfo &info);
 };
 

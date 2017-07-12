@@ -4,8 +4,9 @@ TARGET = duck
 QT += core gui webenginewidgets xml
 
 SOURCES += main.cpp \
-    twebengineurlrequestinterceptor.cpp \
-    webcallback.cpp
+    duckwebenginepage.cpp \
+    duckwebcallback.cpp \
+    duckwebengineurlrequestinterceptor.cpp
 
 RESOURCES += \
     resources.qrc
@@ -16,8 +17,9 @@ INSTALLS += target
 
 HEADERS += \
     main.h \
-    twebengineurlrequestinterceptor.h \
-    webcallback.h
+    duckwebenginepage.h \
+    duckwebcallback.h \
+    duckwebengineurlrequestinterceptor.h
 
 
 RESOURCES =resources.qrc

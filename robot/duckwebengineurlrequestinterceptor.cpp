@@ -3,14 +3,14 @@
  * 邮箱:rootdebug@163.com
  */
 
-#include "twebengineurlrequestinterceptor.h"
+#include "duckwebengineurlrequestinterceptor.h"
 
-WebUrlRequestInterceptor::WebUrlRequestInterceptor(QObject *parent)
+DuckWebUrlRequestInterceptor::DuckWebUrlRequestInterceptor(QObject *parent)
     : QWebEngineUrlRequestInterceptor(parent)
 {
 }
 
-void WebUrlRequestInterceptor::interceptRequest(QWebEngineUrlRequestInfo &info)
+void DuckWebUrlRequestInterceptor::interceptRequest(QWebEngineUrlRequestInfo &info)
 {
     QString strInfo = "";
     switch (info.resourceType())

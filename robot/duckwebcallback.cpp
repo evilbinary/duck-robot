@@ -3,7 +3,7 @@
  * 邮箱:rootdebug@163.com
  */
 
-#include "webcallback.h"
+#include "duckwebcallback.h"
 #include <iostream>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
@@ -13,7 +13,7 @@
 
 using namespace std;
 
-WebCallBack::WebCallBack(QWebEngineView *view)
+DuckWebCallBack::DuckWebCallBack(QWebEngineView *view)
 {
     this->webEngineView=view;
     QWebChannel *channel = new QWebChannel(webEngineView->page());
@@ -29,17 +29,17 @@ WebCallBack::WebCallBack(QWebEngineView *view)
     webChannelJs.append("var webChannel=new QWebChannel(qt.webChannelTransport, function(channel) { \
                         window.bridge = channel.objects.bridge; \
             console.log(channel.objects.bridge);\
-});");
+    });");
 
-webEngineView->page()->runJavaScript(webChannelJs,[=](const QVariant &v){
-    qDebug()<<"ret webChannelJs===>"<<v<<" "<<v.toString();
-});
+    webEngineView->page()->runJavaScript(webChannelJs,[=](const QVariant &v){
+        qDebug()<<"ret webChannelJs===>"<<v<<" "<<v.toString();
+    });
 
 
 
 }
 
-void WebCallBack::finishLoading(bool b){
+void DuckWebCallBack::finishLoading(bool b){
     qDebug()<<"finishLoading="<<b<<endl;
 
 
@@ -92,57 +92,55 @@ void WebCallBack::finishLoading(bool b){
 
 }
 
-void WebCallBack::onTimerOut(){
+void DuckWebCallBack::onTimerOut(){
     //    webEngineView->page()->toHtml([=](const QVariant &v){
     //        qDebug()<<"toHtml===>"<<v<<" "<<v.toString();
     //    });
 
 }
 
-void WebCallBack::javaScriptConsoleMessage(QWebEnginePage::JavaScriptConsoleMessageLevel level, const QString& message, int lineNumber, const QString& sourceID){
-    qDebug()<<lineNumber<<" "<<message;
-}
 
 
-void WebCallBack::showMsgBox(QString msg){
+
+void DuckWebCallBack::showMsgBox(QString msg){
     qDebug()<<"showMsgBox"<<msg;
     QMessageBox::information(NULL,"",msg);
 }
-void WebCallBack::loadFrame(){
+void DuckWebCallBack::loadFrame(){
     qDebug()<<"loadFrame";
-//    webEngineView->page()->toHtml([=](const QVariant &v){
-//        qDebug()<<"toHtml===>"<<v<<" "<<v.toString();
+    //    webEngineView->page()->toHtml([=](const QVariant &v){
+    //        qDebug()<<"toHtml===>"<<v<<" "<<v.toString();
 
-//        int pos = 0;
-//        QString str =v.toString();
-//        QRegExp rx("<img.*src=(.*?)[^>]*?>");
-//        while ((pos = rx.indexIn(str, pos)) != -1) {
-//            //list << rx.cap(1);
-//            qDebug()<<rx.cap(1)<<" "<<rx.cap(2);
+    //        int pos = 0;
+    //        QString str =v.toString();
+    //        QRegExp rx("<img.*src=(.*?)[^>]*?>");
+    //        while ((pos = rx.indexIn(str, pos)) != -1) {
+    //            //list << rx.cap(1);
+    //            qDebug()<<rx.cap(1)<<" "<<rx.cap(2);
 
-//            pos += rx.matchedLength();
-//        }
+    //            pos += rx.matchedLength();
+    //        }
 
-//        //        QDomDocument doc;
-//        //        qDebug()<<"1==>";
-//        //        QString errorMsg;
-//        //        if(!doc.setContent(v.toString(), false,&errorMsg)){
-//        //            qDebug()<<"errorMsg=>"<<errorMsg;
-//        //            return ;
-//        //        }
-//        //        qDebug()<<"2==>";
+    //        //        QDomDocument doc;
+    //        //        qDebug()<<"1==>";
+    //        //        QString errorMsg;
+    //        //        if(!doc.setContent(v.toString(), false,&errorMsg)){
+    //        //            qDebug()<<"errorMsg=>"<<errorMsg;
+    //        //            return ;
+    //        //        }
+    //        //        qDebug()<<"2==>";
 
-//        //        QDomElement root = doc.documentElement();
-//        //        QDomNodeList nodelist=root.elementsByTagName("img");
-//        //        qDebug()<<"nodelist.size==>"<<nodelist.size();
-//        //        if (nodelist.isEmpty())
-//        //            return;
-//        //        for (int i=0; i<nodelist.size(); i++)
-//        //        {
-//        //            QString src=nodelist.at(i).toElement().attribute("src");
-//        //            //text=nodelist.at(i).toElement().text());
-//        //            qDebug()<<src;
-//        //        }
-//    });
+    //        //        QDomElement root = doc.documentElement();
+    //        //        QDomNodeList nodelist=root.elementsByTagName("img");
+    //        //        qDebug()<<"nodelist.size==>"<<nodelist.size();
+    //        //        if (nodelist.isEmpty())
+    //        //            return;
+    //        //        for (int i=0; i<nodelist.size(); i++)
+    //        //        {
+    //        //            QString src=nodelist.at(i).toElement().attribute("src");
+    //        //            //text=nodelist.at(i).toElement().text());
+    //        //            qDebug()<<src;
+    //        //        }
+    //    });
 
 }

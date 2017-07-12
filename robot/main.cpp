@@ -6,9 +6,10 @@
 #include <QApplication>
 #include <QtWebEngineWidgets>
 #include "main.h"
-#include "twebengineurlrequestinterceptor.h"
+#include "duckwebengineurlrequestinterceptor.h"
 #include<QDebug>
-#include "webcallback.h"
+#include "duckwebcallback.h"
+#include "duckwebenginepage.h"
 
 
 
@@ -16,22 +17,21 @@
 
 int main(int argc, char *argv[]){
 
-    qputenv("QTWEBENGINE_REMOTE_DEBUGGING", QByteArray("9000"));
-
     QApplication app(argc, argv);
-
     QString userAgent="Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Version/3.1";
     //QString userAgent="Mozilla/5.0 (Linux; U; Android 4.0.3; zh-cn; M032 Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30";
 
 
-    WebUrlRequestInterceptor *webInterceptor = new WebUrlRequestInterceptor();
+    DuckWebUrlRequestInterceptor *webInterceptor = new DuckWebUrlRequestInterceptor();
     QWebEngineProfile::defaultProfile()->setRequestInterceptor(webInterceptor);
     QWebEngineProfile::defaultProfile()->setHttpUserAgent(userAgent);
 
 //    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
+    DuckWebEnginePage* duckenginePage=new DuckWebEnginePage();
     QWebEngineView *view=new QWebEngineView();
-    WebCallBack *webCallback=new WebCallBack(view);
+    view->setPage(duckenginePage);
+
+    DuckWebCallBack *webCallback=new DuckWebCallBack(view);
 
 //    QWebEngineProfile::defaultProfile()->setProperty("device-width","1280");
 //    QWebEngineProfile::defaultProfile()->setProperty("width","10280");

@@ -10,18 +10,17 @@
 #include <QtWebEngineWidgets>
 #include <QWebEnginePage>
 
-class WebCallBack:public QObject
+class DuckWebCallBack:public QObject
 {
     Q_OBJECT
 
 public:
-    WebCallBack(QWebEngineView *view);
+    DuckWebCallBack(QWebEngineView *view);
 
 
 public Q_SLOTS:
     void finishLoading(bool);
     void showMsgBox(QString msg);
-    void javaScriptConsoleMessage(QWebEnginePage::JavaScriptConsoleMessageLevel level, const QString& message, int lineNumber, const QString& sourceID);
     void onTimerOut();
     void loadFrame();
 
