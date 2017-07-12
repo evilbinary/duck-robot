@@ -1,3 +1,7 @@
+/**
+ * 作者:evilbinary on 12/24/16.
+ * 邮箱:rootdebug@163.com
+ */
 #ifndef WEBCALLBACK_H
 #define WEBCALLBACK_H
 

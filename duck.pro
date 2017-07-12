@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
-qtHaveModule(robot):
 
+qtHaveModule(robot):
 SUBDIRS += \
     robot \
     scm

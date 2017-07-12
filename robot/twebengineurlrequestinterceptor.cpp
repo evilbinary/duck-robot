@@ -1,3 +1,8 @@
+/**
+ * 作者:evilbinary on 12/24/16.
+ * 邮箱:rootdebug@163.com
+ */
+
 #include "twebengineurlrequestinterceptor.h"
 
 WebUrlRequestInterceptor::WebUrlRequestInterceptor(QObject *parent)

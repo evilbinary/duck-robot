@@ -3,7 +3,7 @@
 
 #include "scm_global.h"
 
-class SCMSHARED_EXPORT Scm
+class  Scm
 {
 
 public:

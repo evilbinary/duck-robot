@@ -14,8 +14,7 @@
 
 
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
 
     qputenv("QTWEBENGINE_REMOTE_DEBUGGING", QByteArray("9000"));
 
@@ -44,8 +43,6 @@ int main(int argc, char *argv[])
 
 
     view->show();
-
-
 
     return app.exec();
 
