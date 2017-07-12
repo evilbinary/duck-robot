@@ -63,19 +63,59 @@ function frameLoad(frame){
         });
         init();
         registerMessage(function(pollMsg){
+
+
             console.log(pollMsg);
             if(pollMsg.poll_type=='discu_message'){
-                console.log(getGroupNameByGid(pollMsg.value.from_uin)+'=>'+pollMsg.value.content[1]);
-                sendDiscussMessage(pollMsg.from_uin,pollMsg.value.content[1]);
+                var gid=pollMsg.value.from_uin;
+                var uid=pollMsg.value.send_uin;
+                var code=pollMsg.value.group_code;
+
+                var groupName=getGroupNameByGid(pollMsg.value.from_uin);
+                var nickName=getGroupUserNick(gid,uid,code);
+                var message=pollMsg.value.content[1]||pollMsg.value.content[0];
+
+                console.log(groupName+'=>'+nickName+' '+ message);
+                //sendDiscussMessage(pollMsg.from_uin,pollMsg.value.content[1]);
             }else if(pollMsg.poll_type=='group_message'){
-                console.log(getGroupNameByGid(pollMsg.value.from_uin)+'=>'+pollMsg.value.content[1]);
-                sendGroupMessage(pollMsg.from_uin,pollMsg.value.content[1]);
+                var gid=pollMsg.value.from_uin;
+                var uid=pollMsg.value.send_uin;
+                var code=pollMsg.value.group_code;
+
+                var groupName=getGroupNameByGid(pollMsg.value.from_uin);
+                var nickName=getGroupUserNick(gid,uid,code);
+                var message=pollMsg.value.content[1]||pollMsg.value.content[0];
+                if(bridge.recieveGroupMessage){
+                    bridge.recieveGroupMessage(gid,uid,groupName,nickName,message);
+                }
+                console.log(groupName+'=>'+nickName+' '+ message);
+                //sendGroupMessage(pollMsg.from_uin,pollMsg.value.content[1]);
             }
         });
     }
 }
 
+function getGroupUserNick(gid,uid,code){
+    var user=getGroupUser(gid,uid,code);
+    if(user){
+        return user.nick;
+    }
+    return '';
+}
 
+function getGroupUser(gid,uid,code){
+    var from_group=mq.model.chat.m_model.getGroupByGid(gid,uid);
+    if(from_group.members==undefined ){
+        mq.model.chat.m_model.getGroupInfoList(from_group.code)
+    }
+    var from_group_members = from_group.members || [];
+    var membersLen = from_group_members.length || 0;
+    for( var k = 0; k < membersLen; k++){
+        if( from_group_members[k].uin == uid ){
+            return  from_group_members[k];
+        }
+    }
+}
 
 function sendGroupMessage(gid,msg){
     var param={"group_uin":gid,
@@ -142,7 +182,6 @@ function init(){
         if(evtType ==='receiveMessage'){
             newhandler=function(pollMsg){
                 for(var i=0;i<messagePolls.length;i++){
-                    console.log('poolll.'+(typeof messagePolls[i]) );
                     if( (typeof messagePolls[i])=='function'){
                         messagePolls[i](pollMsg);
                     }

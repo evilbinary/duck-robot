@@ -9,8 +9,11 @@ void DuckWebEnginePage::javaScriptConsoleMessage(QWebEnginePage::JavaScriptConso
     QString levelTip="info";
     if(level==JavaScriptConsoleMessageLevel::WarningMessageLevel){
         levelTip="warn";
+        qWarning()<<"["+levelTip+"]"<<message;
     }else if(level==JavaScriptConsoleMessageLevel::ErrorMessageLevel){
         levelTip="error";
+         qCritical()<<"["+levelTip+"]"<<message;
+    }else{
+        qInfo()<<"["+levelTip+"]"<<message;
     }
-    qDebug()<<"["+levelTip+"]"<<message;
 }

@@ -24,6 +24,8 @@ public Q_SLOTS:
     void onTimerOut();
     void loadFrame();
 
+    void recieveGroupMessage(int gid,int uid,QString groupName,QString nick,QString message);
+
 //       void adjustLocation();
 //       void changeLocation();
 //       void adjustTitle();

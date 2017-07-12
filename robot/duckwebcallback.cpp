@@ -92,6 +92,17 @@ void DuckWebCallBack::finishLoading(bool b){
 
 }
 
+
+void DuckWebCallBack::recieveGroupMessage(int gid,int uid,QString groupName,QString nick,QString message){
+    qDebug()<<" "<<groupName<<" "<<nick<<" "<<message;
+    QString js=QString("sendGroupMessage(%1,'%2');").arg(gid).arg(message);
+
+    webEngineView->page()->runJavaScript(js,[=](const QVariant &v){
+        qDebug()<<"sendGroupMessage===>"<<v<<" "<<v.toString();
+    });
+
+}
+
 void DuckWebCallBack::onTimerOut(){
     //    webEngineView->page()->toHtml([=](const QVariant &v){
     //        qDebug()<<"toHtml===>"<<v<<" "<<v.toString();
