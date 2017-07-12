@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>jquery-3.2.1.min.js</file>
+        <file>web.js</file>
+        <file>qwebchannel.js</file>
+    </qresource>
+</RCC>
