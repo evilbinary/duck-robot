@@ -11,11 +11,17 @@
 #include "duckwebcallback.h"
 #include "duckwebenginepage.h"
 
-
-
+#include "scheme.h"
+#include <QTextCodec>
 
 
 int main(int argc, char *argv[]){
+
+
+//    QTextCodec *codec = QTextCodec::codecForName("UTF-8");//情况2
+//    Scm scm;
+//    std:cout<<"eval=>"<<scm.eval("(display \"呵呵\")")<<"==eeee";
+//    return 0;
 
     QApplication app(argc, argv);
     QString userAgent="Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Version/3.1";

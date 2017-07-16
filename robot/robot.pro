@@ -24,3 +24,10 @@ HEADERS += \
 
 RESOURCES =resources.qrc
 
+
+unix|win32: LIBS += -L$$OUT_PWD/../scm/ -lscheme
+
+INCLUDEPATH += $$PWD/../scm
+DEPENDPATH += $$PWD/../scm
+
+

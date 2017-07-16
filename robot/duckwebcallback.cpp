@@ -11,6 +11,8 @@
 #include <QDomDocument>
 
 
+
+
 using namespace std;
 
 DuckWebCallBack::DuckWebCallBack(QWebEngineView *view)
@@ -30,12 +32,11 @@ DuckWebCallBack::DuckWebCallBack(QWebEngineView *view)
                         window.bridge = channel.objects.bridge; \
             console.log(channel.objects.bridge);\
     });");
-
     webEngineView->page()->runJavaScript(webChannelJs,[=](const QVariant &v){
         qDebug()<<"ret webChannelJs===>"<<v<<" "<<v.toString();
     });
 
-
+    scm=new Scm();
 
 }
 
@@ -93,13 +94,23 @@ void DuckWebCallBack::finishLoading(bool b){
 }
 
 
-void DuckWebCallBack::recieveGroupMessage(int gid,int uid,QString groupName,QString nick,QString message){
-    qDebug()<<" "<<groupName<<" "<<nick<<" "<<message;
-    QString js=QString("sendGroupMessage(%1,'%2');").arg(gid).arg(message);
+void DuckWebCallBack::recieveGroupMessage(long gid,long uid,QString groupName,QString nick,QString message){
+    qDebug()<<gid<<" "<<uid<<" "<<groupName<<" "<<nick<<" "<<message;
 
-    webEngineView->page()->runJavaScript(js,[=](const QVariant &v){
-        qDebug()<<"sendGroupMessage===>"<<v<<" "<<v.toString();
-    });
+    if(groupName=="机器人大战"){
+        if(message.startsWith("$")){
+
+            string exp=message.remove("$").toUtf8().toStdString();
+            string  ret=scm->eval(exp);
+            QString eret=QString::fromStdString(ret);
+            qDebug()<<"exp=>"<<message.remove("$")<<" ret="<<eret;
+            QString js=QString("sendGroupMessage(%1,'%2');").arg(gid).arg(eret);
+
+            webEngineView->page()->runJavaScript(js,[=](const QVariant &v){
+                qDebug()<<"sendGroupMessage===>"<<v<<" "<<v.toString();
+            });
+        }
+    }
 
 }
 

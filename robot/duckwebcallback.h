@@ -9,6 +9,8 @@
 #include <QDebug>
 #include <QtWebEngineWidgets>
 #include <QWebEnginePage>
+#include "scheme.h"
+
 
 class DuckWebCallBack:public QObject
 {
@@ -24,7 +26,7 @@ public Q_SLOTS:
     void onTimerOut();
     void loadFrame();
 
-    void recieveGroupMessage(int gid,int uid,QString groupName,QString nick,QString message);
+    void recieveGroupMessage(long gid,long uid,QString groupName,QString nick,QString message);
 
 //       void adjustLocation();
 //       void changeLocation();
@@ -42,6 +44,7 @@ public Q_SLOTS:
 
 
 private:
+    Scm* scm;
     QWebEngineView * webEngineView;
 };
 

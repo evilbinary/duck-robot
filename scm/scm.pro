@@ -5,18 +5,24 @@
 #-------------------------------------------------
 
 QT       -= core gui
+QT +=network
 
-TARGET = scm
+TARGET = scheme
 TEMPLATE = lib
 
 DEFINES += SCM_LIBRARY
 
-SOURCES += scm.cpp
+SOURCES += \
+    scheme.cpp
 
-HEADERS += scm.h\
-        scm_global.h
+HEADERS +=\
+        scm_global.h \
+    scheme.h
+
+UNAME_S =
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
