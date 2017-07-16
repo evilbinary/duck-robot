@@ -95,20 +95,18 @@ void DuckWebCallBack::finishLoading(bool b){
 
 
 void DuckWebCallBack::recieveGroupMessage(long gid,long uid,QString groupName,QString nick,QString message){
-    qDebug()<<gid<<" "<<uid<<" "<<groupName<<" "<<nick<<" "<<message;
-
-    if(groupName=="机器人大战"){
+    //qDebug()<<gid<<" "<<uid<<" "<<groupName<<" "<<nick<<" "<<message;
+    if(groupName=="机器人大战"||groupName=="C语言幼稚园"){
         if(message.startsWith("$")){
-
-            string exp=message.remove("$").toUtf8().toStdString();
-            string  ret=scm->eval(exp);
-            QString eret=QString::fromStdString(ret);
-            qDebug()<<"exp=>"<<message.remove("$")<<" ret="<<eret;
-            QString js=QString("sendGroupMessage(%1,'%2');").arg(gid).arg(eret);
-
-            webEngineView->page()->runJavaScript(js,[=](const QVariant &v){
-                qDebug()<<"sendGroupMessage===>"<<v<<" "<<v.toString();
+            QString exp=message.remove("$");
+            qDebug()<<"exp=>"<<exp;
+            scm->eval(exp,[=](QVariant &ret){
+                QString js=QString("sendGroupMessage(%1,'%2');").arg(gid).arg(ret.toString());
+                webEngineView->page()->runJavaScript(js,[=](const QVariant &v){
+                    qDebug()<<"sendGroupMessage===>"<<v<<" "<<v.toString();
+                });
             });
+
         }
     }
 
