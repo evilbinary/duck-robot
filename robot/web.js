@@ -18,13 +18,14 @@ function showMessage(msg) {
     return jq;
 }
 
+jq('body').css('display','none');
+
 jq(document).ready(function(e){
     var iframe = document.getElementsByTagName("iframe")[0];
     console.log(iframe);
     var f=jq(iframe);
     f.css('width','0');
     f.css('height','0');
-
     if (iframe.attachEvent) {
         iframe.attachEvent("onload", function() {
             frameLoad(iframe);
@@ -37,61 +38,79 @@ jq(document).ready(function(e){
 
 });
 
+function showQR(qrSrc){
+    jq('.login-title').text("鸭子机器人");
+    jq('body').css('display','block');
+
+    jq(document.body).append("<div id='qrcode' style=\"position:fixed;position: fixed;z-index: 99999;width: auto;height: auto;left: 30%;top: 30%;\"/ > \
+                        <div style='display:block;margin-bottom:10px;text-align:center;'></div> \
+                        <img src='"+qrSrc+"'  style='width:180px;height:auto;' > </div>");
+    jq('#container').bind('DOMNodeInserted', function(e) {
+        jq('#qrcode').hide();
+    });
+
+    init();
+    registerMessage(function(pollMsg){
+        console.log(pollMsg);
+        if(pollMsg.poll_type=='discu_message'){
+            var gid=pollMsg.value.from_uin;
+            var uid=pollMsg.value.send_uin;
+            var code=pollMsg.value.group_code;
+
+            var groupName=getGroupNameByGid(pollMsg.value.from_uin);
+            var nickName=getGroupUserNick(gid,uid,code);
+            var message=pollMsg.value.content[1]||pollMsg.value.content[0];
+
+            console.log(groupName+'=>'+nickName+' '+ message);
+            //sendDiscussMessage(pollMsg.from_uin,pollMsg.value.content[1]);
+        }else if(pollMsg.poll_type=='group_message'){
+            var gid=pollMsg.value.from_uin;
+            var uid=pollMsg.value.send_uin;
+            var code=pollMsg.value.group_code;
+
+            var groupName=getGroupNameByGid(pollMsg.value.from_uin);
+            var nickName=getGroupUserNick(gid,uid,code);
+            var message=pollMsg.value.content[1]||pollMsg.value.content[0];
+            if(bridge.recieveGroupMessage){
+                bridge.recieveGroupMessage(gid,uid,groupName,nickName,message);
+            }
+            console.log(groupName+'=>'+nickName+' '+ message);
+            //sendGroupMessage(pollMsg.from_uin,pollMsg.value.content[1]);
+        }
+    });
+}
+
+var checkQrId;
+function checkQr(){
+    var iframe=jq('iframe');
+    var qrSrc=iframe.contents().find('#qrlogin_img').attr('src');
+    console.log(qrSrc);
+    if(qrSrc!=undefined){
+        clearInterval(checkQrId);
+        showQR(qrSrc);
+    }
+
+}
+
+
 var isFrameLoad=false;
 function frameLoad(frame){
     var iframe=jq('iframe');
     var qrSrc=iframe.contents().find('#qrlogin_img').attr('src');
     iframe.css('width','0');
     iframe.css('height','0');
-    console.log('===>'+jq('iframe').contents().find('#qrlogin_img').attr('src') );
 
     //showMsgBox(JSON.stringify(jq('img').attr('src')));
     //    console.log(JSON.stringify(frame.innerHTML) );
 
 
     if(isFrameLoad==false){
-        console.log('is frame load');
+        console.log('frame is load');
+        console.log('qrSrc='+qrSrc);
+
         isFrameLoad=true;
         window.bridge.loadFrame();
-        jq(document.body).append("<div id='qrcode' style=\"position:fixed;position: fixed;z-index: 99999;width: auto;height: auto;left: 30%;top: 30%;\"/ > \
-                            <div style='display:block;margin-bottom:10px;text-align:center;'>鸭子机器人</div> \
-                            <img src='"+qrSrc+"'  > </div>");
-
-        jq('#container').bind('DOMNodeInserted', function(e) {
-            jq('#qrcode').hide();
-
-        });
-        init();
-        registerMessage(function(pollMsg){
-
-
-            console.log(pollMsg);
-            if(pollMsg.poll_type=='discu_message'){
-                var gid=pollMsg.value.from_uin;
-                var uid=pollMsg.value.send_uin;
-                var code=pollMsg.value.group_code;
-
-                var groupName=getGroupNameByGid(pollMsg.value.from_uin);
-                var nickName=getGroupUserNick(gid,uid,code);
-                var message=pollMsg.value.content[1]||pollMsg.value.content[0];
-
-                console.log(groupName+'=>'+nickName+' '+ message);
-                //sendDiscussMessage(pollMsg.from_uin,pollMsg.value.content[1]);
-            }else if(pollMsg.poll_type=='group_message'){
-                var gid=pollMsg.value.from_uin;
-                var uid=pollMsg.value.send_uin;
-                var code=pollMsg.value.group_code;
-
-                var groupName=getGroupNameByGid(pollMsg.value.from_uin);
-                var nickName=getGroupUserNick(gid,uid,code);
-                var message=pollMsg.value.content[1]||pollMsg.value.content[0];
-                if(bridge.recieveGroupMessage){
-                    bridge.recieveGroupMessage(gid,uid,groupName,nickName,message);
-                }
-                console.log(groupName+'=>'+nickName+' '+ message);
-                //sendGroupMessage(pollMsg.from_uin,pollMsg.value.content[1]);
-            }
-        });
+        checkQrId=setInterval("checkQr()",1000);
     }
 }
 

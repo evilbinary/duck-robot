@@ -43,7 +43,6 @@ DuckWebCallBack::DuckWebCallBack(QWebEngineView *view)
 void DuckWebCallBack::finishLoading(bool b){
     qDebug()<<"finishLoading="<<b<<endl;
 
-
     QFile file;
     file.setFileName(":/jquery-3.2.1.min.js");
     file.open(QIODevice::ReadOnly);
@@ -96,7 +95,7 @@ void DuckWebCallBack::finishLoading(bool b){
 
 void DuckWebCallBack::recieveGroupMessage(long gid,long uid,QString groupName,QString nick,QString message){
     //qDebug()<<gid<<" "<<uid<<" "<<groupName<<" "<<nick<<" "<<message;
-    if(groupName=="机器人大战"||groupName=="C语言幼稚园"){
+    //if(groupName=="机器人大战"||groupName=="C语言幼稚园"){
         if(message.startsWith("$")){
             QString exp=message.remove("$");
             qDebug()<<"exp=>"<<exp;
@@ -108,7 +107,7 @@ void DuckWebCallBack::recieveGroupMessage(long gid,long uid,QString groupName,QS
             });
 
         }
-    }
+    //}
 
 }
 
