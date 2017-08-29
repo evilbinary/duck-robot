@@ -94,9 +94,9 @@ void DuckWebCallBack::finishLoading(bool b){
 
 
 void DuckWebCallBack::recieveGroupMessage(long gid,long uid,QString groupName,QString nick,QString message){
-    //qDebug()<<gid<<" "<<uid<<" "<<groupName<<" "<<nick<<" "<<message;
+    qDebug()<<gid<<" "<<uid<<" "<<groupName<<" "<<nick<<" "<<message;
     //if(groupName=="机器人大战"||groupName=="C语言幼稚园"){
-        if(message.startsWith("$")){
+        if(nick.size()>0){
             QString exp=message.remove("$");
             qDebug()<<"exp=>"<<exp;
             scm->eval(exp,[=](QVariant &ret){
